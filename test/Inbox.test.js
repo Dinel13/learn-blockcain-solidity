@@ -11,9 +11,7 @@ let inbox;
 
 beforeEach(async () => {
   //get a list of alll accounts
-  try {
-    accounts = await web3.eth.getAccounts();
-  } catch (error) {}
+  accounts = await web3.eth.getAccounts();
 
   //use one of those accounts to deploy the contract
   inbox = await new web3.eth.Contract(JSON.parse(interface))
@@ -23,6 +21,13 @@ beforeEach(async () => {
 
 describe("Inbox", () => {
   it("deploy a contract", () => {
-    console.log(inbox);
+    assert.ok(inbox.options.address);
+    //ok = true jika value argument ada.
+    // yang hanya terjadi jika ciontract berhasil dibuat
+  });
+  it("it has have a message", async () => {
+    const message = await inbox.methods.message().call();
+    //argument dalam call untuk mengkustom fungsi seprtei tujuan khusus atau gas yang digunakan
+    assert.equal(message, "HI there");
   });
 });
