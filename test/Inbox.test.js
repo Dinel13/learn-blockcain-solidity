@@ -30,4 +30,10 @@ describe("Inbox", () => {
     //argument dalam call untuk mengkustom fungsi seprtei tujuan khusus atau gas yang digunakan
     assert.equal(message, "HI there");
   });
+  it('can change message' , async () => {
+     await inbox.methods.setMessage("bye there").send({from : accounts[0]})
+    const message = await inbox.methods.message().call();
+
+assert.equal(message, "bye there")
+  });
 });
