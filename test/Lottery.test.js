@@ -25,15 +25,42 @@ describe("Lottery Contract", () => {
     //ok = true jika value argument ada.
     // yang hanya terjadi jika ciontract berhasil dibuat
   });
-  // it("it has have a message", async () => {
-  //   const message = await inbox.methods.message().call();
-  //   //argument dalam call untuk mengkustom fungsi seprtei tujuan khusus atau gas yang digunakan
-  //   assert.equal(message, "HI there");
-  // });
-  // it("can change message", async () => {
-  //   await inbox.methods.setMessage("bye there").send({ from: accounts[0] });
-  //   const message = await inbox.methods.message().call();
+  it("allow one occiount to enter", async () => {
+    await lottery.methods.enter().send({
+      from: accounts[0],
+      value: web3.utils.toWei("0.02", "ether"),
+    });
 
-  //   assert.equal(message, "bye there");
-  // });
+    const player = await lottery.methods.getAllPlayers().call({
+      from: accounts[0],
+    });
+
+    assert.equal(accounts[0], player[0]);
+    assert.equal(1, player.length);
+  });
+  it("allow multiple occiount to enter", async () => {
+    await lottery.methods.enter().send({
+      from: accounts[0],
+      value: web3.utils.toWei("0.02", "ether"),
+    });
+
+    await lottery.methods.enter().send({
+      from: accounts[1],
+      value: web3.utils.toWei("0.02", "ether"),
+    });
+
+    await lottery.methods.enter().send({
+      from: accounts[2],
+      value: web3.utils.toWei("0.02", "ether"),
+    });
+
+    const player = await lottery.methods.getAllPlayers().call({
+      from: accounts[0],
+    });
+
+    assert.equal(accounts[0], player[0]);
+    assert.equal(accounts[1], player[1]);
+    assert.equal(accounts[2], player[2]);
+    assert.equal(3, player.length);
+  });
 });
