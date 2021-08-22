@@ -2,7 +2,7 @@
 const assert = require("assert"); //assert library
 const ganache = require("ganache-cli");
 const Web3 = require("web3"); //huruf besart karena web3 adalah fungsi constructor
-const { interface, bytecode } = require("../compile.js");
+const { interface, bytecode } = require("../Inbox/compile.js");
 
 const web3 = new Web3(ganache.provider()); //argumen proovider dapat diganti
 
